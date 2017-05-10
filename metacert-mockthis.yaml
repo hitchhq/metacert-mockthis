@@ -1,0 +1,84 @@
+swagger: "2.0"
+info:
+  version: "v5"
+  title: Metacert Mock This
+  description: |-
+    A light, but powerful layer of security to your app by providing you with intelligence on 10 BILLION URLs so you can protect users from Fake News, Satire, Alt-right, Far-right, Conservative News, Far-Left, Liberal, Phishing, Malware and Pornography.
+  license:
+    name: MetaCert Inc. License
+    url: https://developer.metacert.com/api-documentation/legal/
+host: core.metacert.com
+basePath: /api
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  security:
+    type: apiKey
+    in: header
+    name: apikey
+paths:
+  /check:
+    post:
+      description: Look up the reputation of a URL against categories such as Fake News, Phishing, Malware and Pornography.
+      tags:
+      - URL
+      operationId: check
+      produces:
+      - application/json
+      parameters:
+      - name: Body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/CheckAUrlrequest'
+      - name: apiKey
+        in: header
+        required: true
+        type: string
+      responses:
+        200:
+          description: ''
+          schema:
+            type: object
+            properties:
+              status:
+                type: object
+                properties:
+                  code:
+                    type: number
+                  message:
+                    type: string
+              data:
+                type: object
+                properties:
+                  URLs:
+                    type: array
+                    items:
+                      type: string
+                  Folders:
+                    type: array
+                    items:
+                      type: string
+                  Domains:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        domain:
+                          type: string
+                        type:
+                          type: string
+      security: []
+definitions:
+  CheckAUrlrequest:
+    title: Check a URLRequest
+    type: object
+    properties:
+      url:
+        type: string
+    required:
+    - url
